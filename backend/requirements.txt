@@ -1,5 +1,9 @@
-asgiref==3.4.1
-Django==4.0
+asgiref
+Django==6.0.1
 django-crispy-forms==1.13.0
-Pillow==9.0.0
-sqlparse==0.4.2
+Pillow
+sqlparse
+celery
+django-celery-beat
+redis
+flower 

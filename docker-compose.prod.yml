@@ -1,0 +1,109 @@
+services:
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: always
+    env_file:
+      - .env.prod
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    volumes:
+      - ./backend/staticfiles:/app/staticfiles
+      - media:/app/media
+      - db:/app/db.sqlite3
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: always
+    env_file:
+      - .env.prod
+    command: celery -A ${DJANGO_PROJECT_MODULE} worker --loglevel=info
+    volumes:
+      - media:/app/media
+      - db:/app/db.sqlite3
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: always
+    env_file:
+      - .env.prod
+    command: celery -A ${DJANGO_PROJECT_MODULE} beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info
+    volumes:
+      - media:/app/media
+      - db:/app/db.sqlite3
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  celery-flower:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: always
+    env_file:
+      - .env.prod
+    command: celery -A ${DJANGO_PROJECT_MODULE} flower --broker=redis://redis:6379/0 --port=5555
+    volumes:
+      - media:/app/media
+      - db:/app/db.sqlite3
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    env_file:
+      - .env.prod
+    volumes:
+      - ./backend/staticfiles:/app/staticfiles
+      - media:/app/media
+      - ./nginx/secure/:/etc/nginx/templates/
+      - /etc/localtime:/etc/localtime:ro
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - certbot
+
+  certbot:
+    image: certbot/certbot
+
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'" # Renew certificates every 12 hours
+
+volumes:
+  media:
+  db:
