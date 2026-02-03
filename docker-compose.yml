@@ -8,12 +8,8 @@ services:
     build: ./backend
     volumes:
       - ./backend:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=online_shop.settings.dev
+    env_file:
+      - .env.dev
     command: celery -A online_shop worker --loglevel=info
     depends_on:
       - redis
@@ -25,12 +21,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=online_shop.settings.dev
+    env_file:
+      - .env.dev
     command: celery -A online_shop beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info
     depends_on:
       - redis
@@ -40,9 +32,8 @@ services:
     build: ./backend
     volumes:
       - ./backend:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+    env_file:
+      - .env.dev
     command: celery -A online_shop --broker=redis://redis:6379/0 flower  --port=5555
     depends_on:
       - redis
@@ -54,9 +45,8 @@ services:
     build: ./backend
     volumes:
       - ./backend:/app
-    environment:
-      - DJANGO_SETTINGS_MODULE=online_shop.settings.dev
-      - SECRET_KEY= django-insecure-kr1p-zj6!vss$(xd2f7vk8nw*3g@-ao92zzg8^@u!mj(l#s)+i
+    env_file:
+      - .env.dev
     ports:
       - "8000:8000"
     command: >
