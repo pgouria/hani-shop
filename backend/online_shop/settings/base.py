@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'dashboard.apps.DashboardConfig',
     'django_celery_beat',
-    'digikala',
+    'core',
+    'marketplace',
 ]
 
 MIDDLEWARE = [

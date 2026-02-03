@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block content %} {% if orders %} {% for order in
-orders %}
+{% extends "base.html" %} {% block content %} {% if orders %} {% for order in orders %}
 <div class="col-md-7 mb-4 border rounded p-3">
   <!-- order id on right -->
   <b style="float: right">کد سفارش: {{ order.id }}</b>
@@ -24,7 +23,8 @@ orders %}
   {% endfor %}
   <b>جمع کل: ${{ order.get_total_price }}</b>
 </div>
-{% endfor %} {% else %}
+{% endfor %} 
+{% else %}
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8 mt-5 pt-5 text-center">
