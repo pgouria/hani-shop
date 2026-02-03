@@ -1,6 +1,6 @@
 # Simple Online Shop: Manage Products and Orders with Django
-![Screenshot 2022-01-09 at 17-04-55 Django Online Shop](https://user-images.githubusercontent.com/71011395/148684469-79bfdb07-efa0-4dde-ad76-1f3277f833e6.png)
 
+![Screenshot 2022-01-09 at 17-04-55 Django Online Shop](https://user-images.githubusercontent.com/71011395/148684469-79bfdb07-efa0-4dde-ad76-1f3277f833e6.png)
 
 This project is a simple but usable online shop written with Django. The app provides a custom dashboard to manage products and orders. Users can like a product, add it to the cart, and proceed to checkout. Order processing is supported, but the payment is handled using a fake pay system.
 
@@ -44,18 +44,9 @@ To access the custom dashboard for managers, please use the following credential
 ## How to Run the Application
 
 1. Clone or download the project to your local machine.
-2. Change directory to the "online-shop-django" folder.
-3. Ensure that you have Python 3, pip, and virtualenv installed on your machine.
-4. Create a virtual environment using the following command:
-   - For Mac and Linux: `python3 -m venv venv`
-   - For Windows: `python -m venv venv`
-5. Activate the virtual environment:
-   - For Mac and Linux: `source venv/bin/activate`
-   - For Windows: `venv\scripts\activate`
-6. Install the application requirements by running: `pip install -r requirements.txt`
-7. Migrate the database by executing: `python manage.py migrate`
-8. Start the server: `python manage.py runserver`
-9. You should now be able to access the application by visiting: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+2. Change directory to the "hani-shop" folder.
+3. Run the command `docker-compose up -d` to start the application.
+4. You should now be able to access the application by visiting: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ## How to Contribute
 
@@ -74,6 +65,6 @@ released under the [MIT License](LICENSE). Feel free to use, modify, and distrib
 
 Feel free to explore, contribute, and customize this according to your needs!
 
-
 ## App Preview
+
 ![Peek 2022-01-09 19-15](https://user-images.githubusercontent.com/71011395/148689722-6ceacc8f-81b7-48e0-a258-9d4e543d1e7c.gif)
