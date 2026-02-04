@@ -1,10 +1,6 @@
-# Simple Online Shop: Manage Products and Orders with Django
-
-![Screenshot 2022-01-09 at 17-04-55 Django Online Shop](https://user-images.githubusercontent.com/71011395/148684469-79bfdb07-efa0-4dde-ad76-1f3277f833e6.png)
+# Simple Persian Online Shop: Manage Products and Orders with Django
 
 This project is a simple but usable online shop written with Django. The app provides a custom dashboard to manage products and orders. Users can like a product, add it to the cart, and proceed to checkout. Order processing is supported, but the payment is handled using a fake pay system.
-
-[Preview](#app-preview)
 
 ## Features
 
@@ -67,7 +63,3 @@ I welcome contributions to enhance and customize this project. If you would like
 released under the [MIT License](LICENSE). Feel free to use, modify, and distribute it as per the terms of the license.
 
 Feel free to explore, contribute, and customize this according to your needs!
-
-## App Preview
-
-![Peek 2022-01-09 19-15](https://user-images.githubusercontent.com/71011395/148689722-6ceacc8f-81b7-48e0-a258-9d4e543d1e7c.gif)
