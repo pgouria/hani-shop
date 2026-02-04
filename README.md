@@ -41,12 +41,15 @@ To access the custom dashboard for managers, please use the following credential
 - Bootstrap
 - SQLite3 database
 
-## How to Run the Application
+## How to Run the Application For Production
 
 1. Clone or download the project to your local machine.
 2. Change directory to the "hani-shop" folder.
-3. Run the command `docker-compose up -d` to start the application.
-4. You should now be able to access the application by visiting: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+3. Copy the `.env.template` file to `.env.prod` and edit it with your own values.
+4. Run the command `docker compose --env-file .env.prod -f docker-compose.prod.yml up -d` to start the application.
+5. You should now be able to access the application by visiting: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+- For Development: Run the command `docker compose --env-file .env.dev -f docker-compose.yml up -d` to start the application. And dont forget to create a `.env.dev` with env template.
 
 ## How to Contribute
 
