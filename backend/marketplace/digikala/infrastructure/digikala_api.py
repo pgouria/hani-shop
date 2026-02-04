@@ -15,6 +15,7 @@ class DigikalaClient:
         }
     def fetch_orders(self):
         response = requests.get(ORDERS_API_URL, headers=self.headers())
+        response.raise_for_status()
         data = response.json()
         items = data.get('data').get('items')
         return items
@@ -28,6 +29,7 @@ class DigikalaClient:
 
             
             response = requests.get(VARIANT_API_URL, headers=self.headers(), params=params, timeout=30)
+            response.raise_for_status()
 
             # Check if the request was successful (status code 200)
             if response.status_code == 200:
