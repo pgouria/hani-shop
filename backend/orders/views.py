@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.contrib import messages
 
-from core.orders.models import Order, OrderItem
+from orders.models import Order, OrderItem
 from cart.utils.cart import Cart
 
 

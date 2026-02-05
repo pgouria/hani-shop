@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import Http404
 
-from core.catalog.models import Product
-from core.accounts.models import User
-from core.orders.models import Order, OrderItem
+from shop.models import Product
+from accounts.models import User
+from orders.models import Order, OrderItem
 from .forms import AddProductForm, AddCategoryForm, EditProductForm
 
 

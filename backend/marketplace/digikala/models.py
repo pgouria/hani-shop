@@ -1,22 +1,22 @@
 from django.db import models
 import jdatetime
-
+from shop.models import Product as ProductModel
 class Product(models.Model):
-    product_id = models.IntegerField(unique=True)
+    external_product_id = models.IntegerField(unique=True)
     category_id = models.IntegerField()
     title = models.CharField(max_length=255)
     image = models.URLField(default="#")
 
  
 class Variant(models.Model):
-    inner_product = models.ForeignKey('core.catalog.Product', on_delete=models.CASCADE)
-    variant_id = models.IntegerField()
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    external_variant_id = models.IntegerField()
     seller_id = models.IntegerField()
     site = models.CharField(max_length=50)
     is_active = models.BooleanField()
     is_archived = models.BooleanField()
     title = models.CharField(max_length=255)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    external_product = models.ForeignKey(Product, on_delete=models.CASCADE)
     shipping_type = models.CharField(max_length=50)
     stock_in_digikala = models.IntegerField()
     stock_in_seller_warehouse = models.IntegerField()
@@ -30,18 +30,12 @@ class Variant(models.Model):
     commission_percentage = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     
     
-# NOT IMPLEMENTED
-class Price(models.Model):
-    price_id = models.IntegerField()
-    selling_price = models.FloatField()
-    rrp_price = models.FloatField()
-    reference_price = models.FloatField()
 
 class Order(models.Model):
     order_item_id = models.IntegerField()
     order_id = models.IntegerField()
-    variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE) 
+    external_variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
+    external_product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     order_status = models.CharField(max_length=50)
     shipment_status = models.CharField(max_length=50)

@@ -1,5 +1,5 @@
 from cart.utils.cart import Cart
-from core.catalog.models import Category
+from shop.models import Category
 
 
 def return_cart(request):

@@ -20,37 +20,29 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # third party apps
     'crispy_forms',
     'django.contrib.humanize' ,
-
     'django_celery_beat',
-
-    'accounts.apps.AccountsConfig',
-    'cart.apps.CartConfig',
-    'orders.apps.OrdersConfig',
-    'shop.apps.ShopConfig',
-    'dashboard.apps.DashboardConfig',
-
-   
-
-
-    'core',
-    'core.accounts.apps.AccountsConfig',
-    'core.catalog.apps.CatalogConfig',
-    'core.channels.apps.ChannelsConfig',
-    'core.orders.apps.OrdersConfig',
-    'core.inventory.apps.InventoryConfig',  
+    # local apps
+    'accounts',
+    'cart',
+    'channels',
+    'orders',
+    'shop',
+    'dashboard',
     'marketplace',
     'marketplace.digikala',
     'notification',
     'plugins',
+    'inventory',
 ]
 
 MIDDLEWARE = [
@@ -96,7 +88,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'core_accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

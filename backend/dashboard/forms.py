@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from core.catalog.models import Product, Category
+from shop.models import Product, Category
 
 
 class AddProductForm(ModelForm):

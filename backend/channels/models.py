@@ -1,5 +1,5 @@
 from django.db import models
-from ..catalog.models import Product
+from shop.models import Product
 
 class Channel(models.Model):
     name = models.CharField(max_length=200)

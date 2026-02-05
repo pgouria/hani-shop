@@ -1,5 +1,5 @@
 from django.db import models
-from core.catalog.models import Product
+from shop.models import Product
 
 class Warehouse(models.Model):
     name = models.CharField(max_length=200)

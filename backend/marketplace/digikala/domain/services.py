@@ -36,7 +36,7 @@ def save_orders(orders: list):
                     'is_active': variant_data['is_active'],
                     'is_archived': variant_data['is_archived'],
                     'title': variant_data['title'],
-                    'product': product,
+                    'external_product': product,
                     'shipping_type': variant_data['shipping_type'],
                     'stock_in_digikala': variant_data['stock']['in_ warehouse'],
                     'stock_in_seller_warehouse': variant_data['stock']['in_seller_warehouse'],
@@ -51,8 +51,8 @@ def save_orders(orders: list):
                 new_order =  Order.objects.create(
                     order_item_id=item['order_item_id'],
                     order_id=item['order_id'],
-                    variant=variant,
-                    product=product,
+                    external_variant=variant,
+                    external_product=product,
                     quantity=item['quantity'],
                     order_status=item['order_status'],
                     shipment_status=item['shipment_status'],
@@ -103,7 +103,7 @@ def save_variants(variants: list):
                 'is_active': item['is_active'],
                 'is_archived': item['is_archived'],
                 'title': item['title'],
-                'product': product,
+                'external_product': product,
                 'shipping_type': item['shipping_type'],
                 'stock_in_digikala': item['stock']['dk_stock'],
                 'stock_in_seller_warehouse': item['stock']['seller_stock'],
@@ -123,13 +123,13 @@ def save_variants(variants: list):
 
         # If the variant already exists, update the fields
         if not created:
-         variant.variant_id=item['id']
+         variant.external_variant_id=item['id']
          variant.seller_id = item['seller_id']
          variant.site = item['site']
          variant.is_active = item['is_active']
          variant.is_archived = item['is_archived']
          variant.title = item['title']
-         variant.product = product
+         variant.external_product = product
          variant.shipping_type = item['shipping_type']
          variant.stock_in_digikala = item['stock']['dk_stock']
          variant.stock_in_seller_warehouse = item['stock']['seller_stock']
