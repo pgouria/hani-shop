@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm
-from accounts.models import User
+from core.accounts.models import User
 
 
 def create_manager():

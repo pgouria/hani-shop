@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 
-from shop.models import Product, Category
+from core.catalog.models import Product, Category
 from cart.forms import QuantityForm
 
 

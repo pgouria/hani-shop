@@ -3,13 +3,17 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.decorators.http import require_POST
 from django.utils import timezone
+from django.contrib import messages
 
-from .models import Order, OrderItem
+from core.orders.models import Order, OrderItem
 from cart.utils.cart import Cart
 
 
 @login_required
 def create_order(request):
+    if not request.user.address:
+        messages.error(request, 'لطفا آدرس خود را وارد کنید', 'danger')
+        return redirect('accounts:edit_profile')
     cart = Cart(request)
     order = Order.objects.create(user=request.user)
     for item in cart:

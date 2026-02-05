@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from cart.utils.cart import Cart
 from .forms import QuantityForm
-from shop.models import Product
+from core.catalog.models import Product
 
 
 @login_required

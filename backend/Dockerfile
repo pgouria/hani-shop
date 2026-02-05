@@ -5,18 +5,17 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-# # install zlib dependency manually for pillow 
-# RUN apt-get update && apt-get install -y \
-#     zlib1g-dev \
-#     libjpeg-dev \
-#     libpng-dev \
-#     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --trusted-host https://mirror-pypi.runflare.com -i https://mirror-pypi.runflare.com/simple/ --upgrade pip
+
+
+
+RUN pip install  --upgrade pip
 
 # Use a cache mount for pip
+# RUN --mount=type=cache,target=/root/.cache/pip \
+#     pip install --trusted-host https://mirror-pypi.runflare.com -i https://mirror-pypi.runflare.com/simple/ --no-cache-dir -r requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --trusted-host https://mirror-pypi.runflare.com -i https://mirror-pypi.runflare.com/simple/ --no-cache-dir -r requirements.txt
+    pip install  --no-cache-dir -r requirements.txt
 
 
 

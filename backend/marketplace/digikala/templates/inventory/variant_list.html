@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Variant List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Display success/error messages -->
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+        <div class="message">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h1>Variant List</h1>
+ 
+    
+ 
+    <table>
+        <thead> 
+            <form method="get" action="{% url 'variant_list' %}">
+            {% csrf_token %} 
+
+            <tr> 
+                <th>Title
+                <input type="text" name="title_filter" value="{{ request.GET.title_filter }}" placeholder="Filter title">        
+                </th>
+                <th>ID</th>
+                <th>Price</th>
+                <th>Stock in seller </th>
+                <th>stock in digikala </th>
+                <th>selling stock 
+                <input type="number" name="selling_stock_filter"      value="{{request.GET.selling_stock_filter}}" > 
+                
+                </th>
+
+                <th>Buying Price</th>
+                <th>Commission Percentage</th>
+                <th>Buy Box Price</th>
+                <th>Is Buy Box Winner</th>
+                <th>Fulfilment & Delivery Cost</th>
+                <th>Active</th>
+                <button type="submit">Filter</button>
+            </tr>
+            </form>
+        </thead>
+  <form method="post" action="{% url 'update_prices' %}">
+    {% csrf_token %} 
+        <tbody>
+            {% for variant in variants %}
+            <tr>
+                <td>{{ variant.title }}</td>
+                <td>{{ variant.variant_id }}</td>
+                <td>{{ variant.selling_price }}</td>
+                <td>
+                        <input type="number" name="stock_in_seller_warehouse_{{ variant.variant_id }}" value="{{ variant.stock_in_seller_warehouse }}" >
+                </td>
+                <td>{{ variant.stock_in_digikala }}</td>
+                <td>{{ variant.selling_stock }}</td>
+                               
+
+                <td>
+                    <!-- Input field for buying price -->
+                    <input type="number" name="buying_price_{{ variant.variant_id}}" value="{{ variant.buying_price }}">
+                </td>
+                <td>
+                    <!-- Input field for Commission Percentage -->
+                    <input type="number" name="commission_percentage_{{ variant.variant_id}}" value="{{ variant.commission_percentage }}">
+                </td>
+                <td>{{ variant.buy_box_price }}</td>
+                <td>{{ variant.is_buy_box_winner|yesno:"Yes,No" }}</td>
+                <td>{{ variant.fulfilment_and_delivery_cost }}</td>
+                <td>{{ variant.is_active|yesno:"Yes,No" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+       <button type="submit">Save</button>
+    </table>
+
+</form>
+</body>
+</html>

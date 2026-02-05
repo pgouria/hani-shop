@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Status</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation Bar (Header) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Aryangostar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="btn btn-primary mx-2" href="{% url 'home' %}">Home</a> <!-- Button for Home -->
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-secondary mx-2" href="{% url 'orders' %}">Orders</a> <!-- Button for Orders -->
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-secondary mx-2" href="{% url 'variant_list' %}">variants</a> <!-- Button for variants -->
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Rest of your content goes here -->
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Service Status</h1>
+
+        <!-- Table to show services and their status -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service, status in services_status.items %}
+                <tr>
+                    <td>{{ service }}</td>
+                    <td>{{ status }}</td>
+                    <td>
+                        <!-- Button to show logs -->
+                        <button type="button" class="btn btn-info" onclick="showLogs('{{ service }}')">Show Logs</button>
+                        
+                        <!-- Button to restart service -->
+                        <form method="post" action="{% url 'restart_service' service %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning">Restart</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for displaying logs -->
+    <div id="logModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logs for Service</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <pre id="logContent" style="white-space: pre-wrap;"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        function showLogs(serviceName) {
+            // Fetch logs via AJAX
+            $.ajax({
+                url: "{% url 'service_logs' 'SERVICE_NAME_PLACEHOLDER' %}".replace('SERVICE_NAME_PLACEHOLDER', serviceName),
+                method: 'GET', 
+                success: function(data) {
+                    if (data.status === 'success') {
+                        // Show logs in the modal
+                        let logContent = data.logs.join("\n");  // Combine log lines
+                        $('#logModal .modal-title').text('Logs for ' + serviceName);
+                        $('#logContent').text(logContent);  // Add logs to modal
+                        $('#logModal').modal('show');
+                    } else {
+                        alert('Failed to retrieve logs.');
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while fetching logs.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

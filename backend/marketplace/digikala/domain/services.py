@@ -1,5 +1,5 @@
 import datetime
-from marketplace.models import Digikala_Product ,Digikala_Variant ,Digikala_Order
+from ..models import  Product , Variant , Order
 
 def save_orders(orders: list):
     """
@@ -18,7 +18,7 @@ def save_orders(orders: list):
             product_data = variant_data.get('product')
             
             # Create or get Product
-            product, created = Digikala_Product.objects.get_or_create(
+            product, created =  Product.objects.get_or_create(
                 product_id=product_data['id'],
                 defaults={
                     'category_id': product_data['category_id'],
@@ -28,7 +28,7 @@ def save_orders(orders: list):
             )
 
             # Create or get Variant
-            variant, created = Digikala_Variant.objects.get_or_create(
+            variant, created =  Variant.objects.get_or_create(
                 variant_id=variant_data['id'],
                 defaults={
                     'seller_id': variant_data['seller_id'],
@@ -38,17 +38,17 @@ def save_orders(orders: list):
                     'title': variant_data['title'],
                     'product': product,
                     'shipping_type': variant_data['shipping_type'],
-                    'stock_in_digikala': variant_data['stock']['in_digikala_warehouse'],
+                    'stock_in_digikala': variant_data['stock']['in_ warehouse'],
                     'stock_in_seller_warehouse': variant_data['stock']['in_seller_warehouse'],
                 }
             )
 
             # Check if the order already exists
-            order_exists = Digikala_Order.objects.filter(order_item_id=item['order_item_id']).exists()
+            order_exists =  Order.objects.filter(order_item_id=item['order_item_id']).exists()
 
             # If the order does not exist, it's a new order
             if not order_exists:
-                new_order = Digikala_Order.objects.create(
+                new_order =  Order.objects.create(
                     order_item_id=item['order_item_id'],
                     order_id=item['order_id'],
                     variant=variant,
@@ -84,7 +84,7 @@ def save_variants(variants: list):
         product_data = item.get('product')
         
         # Create or get Product
-        product, created = Digikala_Product.objects.get_or_create(
+        product, created =  Product.objects.get_or_create(
             product_id=product_data['id'],
             defaults={
 
@@ -95,7 +95,7 @@ def save_variants(variants: list):
         )
 
         # Create or get Variant
-        variant, created = Digikala_Variant.objects.get_or_create(
+        variant, created =  Variant.objects.get_or_create(
             variant_id=item['id'],
             defaults={
                 'seller_id': item['seller_id'],

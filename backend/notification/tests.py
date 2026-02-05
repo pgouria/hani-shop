@@ -22,13 +22,15 @@ class TelegramPluginTests(SimpleTestCase):
         order_a = SimpleNamespace(order_id=101, variant=SimpleNamespace(title="Widget"))
         order_b = SimpleNamespace(order_id=202, variant=SimpleNamespace(title="Gadget"))
 
-        with mock.patch.object(telegram_plugin, "_send") as send_mock, \
-            mock.patch.object(telegram_plugin, "asyncio") as asyncio_mock:
-            send_mock.return_value = "coroutine"
+        with mock.patch.object(telegram_plugin, "_send", new_callable=mock.AsyncMock) as send_mock, \
+             mock.patch.object(telegram_plugin.asyncio, "run") as run_mock:
+
             telegram_plugin.send_orders_notification([order_a, order_b])
 
-        asyncio_mock.run.assert_called_once_with("coroutine")
+        run_mock.assert_called_once()
+
         message = send_mock.call_args[0][0]
         self.assertIn("🛒 New Orders:", message)
         self.assertIn("- 101 | Widget", message)
         self.assertIn("- 202 | Gadget", message)
+

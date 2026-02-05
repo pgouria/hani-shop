@@ -5,19 +5,19 @@ import jdatetime
 from django.test import TestCase, SimpleTestCase
 from django.utils import timezone
 
-from .models import Digikala_Product, Digikala_Variant, Digikala_Order
-from .tasks import fetch_orders
+from .models import  Product,  Variant,  Order
+from ..tasks import fetch_orders
 
 
 class DigikalaOrderModelTests(TestCase):
     def test_solar_dates_convert_from_gregorian(self):
-        product = Digikala_Product.objects.create(
+        product =  Product.objects.create(
             product_id=1,
             category_id=10,
             title="Phone",
             image="https://example.com/phone.png",
         )
-        variant = Digikala_Variant.objects.create(
+        variant =  Variant.objects.create(
             variant_id=100,
             seller_id=55,
             site="dk",
@@ -39,7 +39,7 @@ class DigikalaOrderModelTests(TestCase):
         )
         created_at = timezone.now()
         commitment_date = created_at + timedelta(days=2)
-        order = Digikala_Order.objects.create(
+        order =  Order.objects.create(
             order_item_id=123,
             order_id=456,
             variant=variant,
@@ -62,7 +62,7 @@ class DigikalaOrderModelTests(TestCase):
 class MarketplaceTasksTests(SimpleTestCase):
     def test_fetch_orders_calls_sync(self):
         with mock.patch(
-            "backend.marketplace.digikala.application.sync_orders.sync_orders"
+            "marketplace.digikala.application.sync_orders.sync_orders"
         ) as sync_mock:
             fetch_orders()
 

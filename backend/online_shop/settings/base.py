@@ -26,16 +26,31 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'crispy_forms',
     'django.contrib.humanize' ,
+
+    'django_celery_beat',
+
     'accounts.apps.AccountsConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'shop.apps.ShopConfig',
     'dashboard.apps.DashboardConfig',
-    'django_celery_beat',
+
+   
+
+
     'core',
+    'core.accounts.apps.AccountsConfig',
+    'core.catalog.apps.CatalogConfig',
+    'core.channels.apps.ChannelsConfig',
+    'core.orders.apps.OrdersConfig',
+    'core.inventory.apps.InventoryConfig',
     'marketplace',
+    'marketplace.digikala.apps.DigikalaConfig',
+    'notification',
+    'plugins',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +96,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'core_accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

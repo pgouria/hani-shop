@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Persian Date Picker CSS -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/ehya/PersianDatePicker/master/dist/PersianDatePicker.min.css">
+</head>
+<body>
+
+<!-- Navigation Bar (Header) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Aryangostar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="btn btn-primary mx-2" href="{% url 'home' %}">Home</a> <!-- Button for Home -->
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-secondary mx-2" href="{% url 'orders' %}">Orders</a> <!-- Button for Orders -->
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Rest of your content goes here -->
+
+    <div class="container mt-5">
+       <form method="GET" action="{% url 'filter_orders' %}">
+    <div class="form-group">
+        <label for="start_date">Start Date (Persian):</label>
+        <input type="text" name="start_date" id="start_date" class="form-control" required placeholder="Select Start Date">
+    </div>
+    
+    <div class="form-group">
+        <label for="end_date">End Date (Persian):</label>
+        <input type="text" name="end_date" id="end_date" class="form-control" required placeholder="Select End Date">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Filter</button>
+      </form>
+        <!-- Orders Heading -->
+        <h1 class="text-center mb-4">Orders</h1>
+
+        <!-- New Orders Section -->
+        {% if new_orders %}
+            <h2>New Orders:</h2>
+            <ul class="list-group mb-4">
+                {% for order in new_orders %}
+                    <li class="list-group-item">Order ID: {{ order.order_id }} - Product Title: {{ order.variant.title }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Orders Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product Title</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Commitment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr> 
+                            <td>{{ order.order_id }}</td>
+                            <td>{{ order.variant.title }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>{{ order.order_status }}</td>
+                            <td>{{ order.solar_created_at }}</td>
+                            <td>{{ order.solar_commitment_date }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No orders found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+   <!-- Persian Date Picker JS -->
+<script src="https://cdn.rawgit.com/ehya/PersianDatePicker/master/dist/PersianDatePicker.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#start_date').persianDatePicker({
+            format: 'YYYY-MM-DD' // Change this according to your preferred format
+        });
+
+        $('#end_date').persianDatePicker({
+            format: 'YYYY-MM-DD' // Change this according to your preferred format
+        });
+    });
+</script>
+
+</body>
+</html>

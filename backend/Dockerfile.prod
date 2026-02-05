@@ -4,12 +4,8 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
-# install zlib dependency manually for pillow 
-RUN apt-get update && apt-get install -y \
-    zlib1g-dev \
-    libjpeg-dev \
-    libpng-dev \
-    && rm -rf /var/lib/apt/lists/*
+
+
 
 # Use a cache mount for pip
 RUN --mount=type=cache,target=/root/.cache/pip \
