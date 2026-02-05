@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize' ,
     'django_celery_beat',
     # local apps
+    'core',
     'accounts',
     'cart',
     'channels',
