@@ -16,3 +16,9 @@ def publish(event):
 class OrdersCreated:
     def __init__(self, orders):
         self.orders = orders
+
+
+# NOT IMPLEMENTED
+class StockChanged:
+    def __init__(self, stock):
+        self.stock = stock

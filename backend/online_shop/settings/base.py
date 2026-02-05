@@ -46,9 +46,9 @@ INSTALLED_APPS = [
     'core.catalog.apps.CatalogConfig',
     'core.channels.apps.ChannelsConfig',
     'core.orders.apps.OrdersConfig',
-    'core.inventory.apps.InventoryConfig',
+    'core.inventory.apps.InventoryConfig',  
     'marketplace',
-    'marketplace.digikala.apps.DigikalaConfig',
+    'marketplace.digikala',
     'notification',
     'plugins',
 ]

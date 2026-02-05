@@ -9,7 +9,7 @@ class Product(models.Model):
 
  
 class Variant(models.Model):
-    
+    inner_product = models.ForeignKey('core.catalog.Product', on_delete=models.CASCADE)
     variant_id = models.IntegerField()
     seller_id = models.IntegerField()
     site = models.CharField(max_length=50)
@@ -30,7 +30,7 @@ class Variant(models.Model):
     commission_percentage = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     
     
-
+# NOT IMPLEMENTED
 class Price(models.Model):
     price_id = models.IntegerField()
     selling_price = models.FloatField()

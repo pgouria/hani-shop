@@ -47,3 +47,10 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+    
+
+# NOT IMPLEMENTED
+class ProductVariant(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    sku = models.CharField(max_length=64, unique=True)
+    attributes = models.JSONField(default=dict)
