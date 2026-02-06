@@ -4,8 +4,7 @@ from core.domain.events import publish , OrdersCreated
 
 
 
-
-
+# TODO
 def sync_orders():
 
     digikala_client = DigikalaClient()

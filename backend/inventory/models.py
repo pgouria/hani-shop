@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models import Product
+from shop.models import   Variant
 
 class Warehouse(models.Model):
     name = models.CharField(max_length=200)
@@ -19,7 +19,7 @@ class WarehouseLocation(models.Model):
     
 
 class Stock(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE , related_name='stocks')
+    variant = models.ForeignKey(Variant, on_delete=models.CASCADE , related_name='stocks')
     location = models.ForeignKey(WarehouseLocation, on_delete=models.CASCADE, null=True , blank=True ,related_name='stocks')
     
     quantity = models.IntegerField()

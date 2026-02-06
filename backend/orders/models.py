@@ -1,7 +1,7 @@
 from django.db import models
 
 from accounts.models import User
-from shop.models import Product
+from shop.models import   Variant
 from channels.models import Channel
 
 
@@ -26,7 +26,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items')
+    variant = models.ForeignKey(Variant, on_delete=models.PROTECT, related_name='order_items')
     price = models.IntegerField()
     quantity = models.SmallIntegerField(default=1)
 

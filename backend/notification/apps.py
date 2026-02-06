@@ -1,6 +1,5 @@
 from django.apps import AppConfig
-from core.domain.events import OrdersCreated
-from .handlers import on_orders_created
+
 
 
 class NotificationConfig(AppConfig):
@@ -8,5 +7,7 @@ class NotificationConfig(AppConfig):
     
     def ready(self):
         from core.domain.events import subscribe
+        from core.domain.orders import OrdersCreated
+        from .handlers import on_orders_created
         subscribe(OrdersCreated, on_orders_created)
         

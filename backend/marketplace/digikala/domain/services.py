@@ -1,5 +1,8 @@
 import datetime
 from ..models import  Product , Variant , Order
+from typing import List, Union, Iterable
+from django.db.models import QuerySet
+
 
 def save_orders(orders: list):
     """
@@ -140,3 +143,25 @@ def save_variants(variants: list):
          variant.selling_stock = item['stock']['selling_stock']
          # Save the updated variant
          variant.save() 
+
+
+
+
+def get_prices(variants: Union[Variant, Iterable[Variant]]) -> List[int]:
+    if not variants:
+        raise ValueError('variants is required')
+
+    def _compute(base_price: int) -> int:
+        return base_price * 1.3
+    
+    if isinstance(variants, Variant):
+        queryset = Variant.objects.filter(pk=variants.pk).select_related('linked_variant')
+    
+    elif isinstance(variants, QuerySet):
+        queryset = variants.select_related('linked_variant')
+  
+    else:
+        return [_compute(v.linked_variant.base_price) for v in variants]
+
+    
+    return [_compute(v.linked_variant.base_price) for v in queryset]

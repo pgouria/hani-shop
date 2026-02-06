@@ -4,10 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import Http404
 
-from shop.models import Product
+from shop.models import Product , Variant , Category
 from accounts.models import User
 from orders.models import Order, OrderItem
-from .forms import AddProductForm, AddCategoryForm, EditProductForm
+from .forms import AddProductForm, AddCategoryForm, EditProductForm , AddVariantForm , EditVariantForm , EditCategoryForm
 
 
 def is_manager(user):
@@ -26,6 +26,13 @@ def products(request):
     context = {'title':'Products' ,'products':products}
     return render(request, 'products.html', context)
 
+@user_passes_test(is_manager)
+@login_required
+def variants(request):
+    variants = Variant.objects.all()
+    context = {'title':'Variants' ,'variants':variants}
+    return render(request, 'variants.html', context)
+
 
 @user_passes_test(is_manager)
 @login_required
@@ -41,6 +48,20 @@ def add_product(request):
     context = {'title':'Add Product', 'form':form}
     return render(request, 'add_product.html', context)
 
+@user_passes_test(is_manager)
+@login_required
+def add_variant(request):
+    if request.method == 'POST':
+        form = AddVariantForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Variant added Successfuly!')
+            return redirect('dashboard:add_variant')
+    else:
+        form = AddVariantForm()
+    context = {'title':'Add Variant', 'form':form}
+    return render(request, 'add_variant.html', context)
+
 
 @user_passes_test(is_manager)
 @login_required
@@ -48,6 +69,8 @@ def delete_product(request, id):
     product = Product.objects.filter(id=id).delete()
     messages.success(request, 'product has been deleted!', 'success')
     return redirect('dashboard:products')
+
+
 
 
 @user_passes_test(is_manager)
@@ -68,6 +91,30 @@ def edit_product(request, id):
 
 @user_passes_test(is_manager)
 @login_required
+def edit_variant(request, id):
+    variant = get_object_or_404(Variant, id=id)
+    if request.method == 'POST':
+        form = EditVariantForm(request.POST, request.FILES, instance=variant)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Variant has been updated', 'success')
+            return redirect('dashboard:variants')
+    else:
+        form = EditVariantForm(instance=variant)
+    context = {'title': 'Edit Variant', 'form':form}
+    return render(request, 'edit_variant.html', context)
+
+@user_passes_test(is_manager)
+@login_required
+def delete_variant(request, id):
+    variant = get_object_or_404(Variant, id=id)
+    variant.delete()
+    messages.success(request, 'variant has been deleted!', 'success')
+    return redirect('dashboard:variants')
+
+
+@user_passes_test(is_manager)
+@login_required
 def add_category(request):
     if request.method == 'POST':
         form = AddCategoryForm(request.POST)
@@ -79,6 +126,21 @@ def add_category(request):
         form = AddCategoryForm()
     context = {'title':'Add Category', 'form':form}
     return render(request, 'add_category.html', context)
+
+@user_passes_test(is_manager)
+@login_required
+def edit_category(request, id):
+    category = get_object_or_404(Category, id=id)
+    if request.method == 'POST':
+        form = EditCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category has been updated', 'success')
+            return redirect('dashboard:categories')
+    else:
+        form = EditCategoryForm(instance=category)
+    context = {'title': 'Edit Category', 'form':form}
+    return render(request, 'edit_category.html', context)
 
 
 @user_passes_test(is_manager)

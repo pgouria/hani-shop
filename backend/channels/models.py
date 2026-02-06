@@ -1,5 +1,5 @@
 from django.db import models
-from shop.models import Product
+from shop.models import Variant
 
 class Channel(models.Model):
     name = models.CharField(max_length=200)
@@ -8,13 +8,13 @@ class Channel(models.Model):
     def __str__(self):
         return self.name
     
-class ProductChannel(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='channels')
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE,related_name='products')
+class VariantChannel(models.Model):
+    variant = models.ForeignKey(Variant, on_delete=models.CASCADE,related_name='channels')
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE,related_name='variants')
 
    
     is_published = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = ('product', 'channel')
+        unique_together = ('variant', 'channel')

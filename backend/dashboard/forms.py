@@ -1,13 +1,12 @@
 from django import forms
 from django.forms import ModelForm
 
-from shop.models import Product, Category
-
+from shop.models import  Variant,Category,Product
 
 class AddProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['category', 'image', 'title','description', 'price']
+        fields = ['category', 'image', 'title','description']
 
     def __init__(self, *args, **kwargs):
         super(AddProductForm, self).__init__(*args, **kwargs)
@@ -27,13 +26,44 @@ class AddCategoryForm(ModelForm):
         self.fields['sub_category'].widget.attrs['class'] = 'form-control'
         self.fields['title'].widget.attrs['class'] = 'form-control'
 
+class EditCategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['title', 'sub_category', 'is_sub']
+
+    def __init__(self, *args, **kwargs):
+        super(EditCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['is_sub'].widget.attrs['class'] = 'form-check-input'
+        self.fields['sub_category'].widget.attrs['class'] = 'form-control'
+        self.fields['title'].widget.attrs['class'] = 'form-control'
+
 
 class EditProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['category', 'image', 'title','description', 'price']
+        fields = ['category', 'image', 'title','description']
 
     def __init__(self, *args, **kwargs):
         super(EditProductForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+class AddVariantForm(ModelForm):
+    class Meta:
+        model = Variant
+        fields = ['sku','attributes','product']
+       
+    def __init__(self, *args, **kwargs):
+        super(AddVariantForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+class EditVariantForm(ModelForm):
+    class Meta:
+        model = Variant
+        fields = ['sku','attributes','product']
+       
+    def __init__(self, *args, **kwargs):
+        super(EditVariantForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'

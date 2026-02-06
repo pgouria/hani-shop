@@ -31,9 +31,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products')
     title = models.CharField(max_length=250)
     description = models.TextField()
-    price = models.IntegerField()
     date_created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
+
 
     class Meta:
         ordering = ('-date_created',)
@@ -49,8 +49,20 @@ class Product(models.Model):
         return super().save(*args, **kwargs)
     
 
-# NOT IMPLEMENTED
-class ProductVariant(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    sku = models.CharField(max_length=64, unique=True)
+
+class Variant(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
+    sku = models.CharField(max_length=64, unique=True, null=True, blank=True)
     attributes = models.JSONField(default=dict)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+    class Meta:
+        ordering = ('-date_created',)
+
+        
+    def get_absolute_url(self):
+        return reverse('shop:product_detail', kwargs={'slug':self.product.slug})
+

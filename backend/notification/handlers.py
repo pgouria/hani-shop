@@ -1,4 +1,4 @@
-from core.domain.events import OrdersCreated
+from core.domain.orders import OrdersCreated
 from .plugins.telegram import send_orders_notification
 
 

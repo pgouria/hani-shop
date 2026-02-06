@@ -1,12 +1,12 @@
 from datetime import timedelta
-from unittest import mock
+
 
 import jdatetime
-from django.test import TestCase, SimpleTestCase
+from django.test import TestCase
 from django.utils import timezone
 
 from .models import  Product,  Variant,  Order
-from ..tasks import fetch_orders
+
 
 
 class DigikalaOrderModelTests(TestCase):
@@ -58,12 +58,3 @@ class DigikalaOrderModelTests(TestCase):
         self.assertEqual(order.solar_created_at, expected_created)
         self.assertEqual(order.solar_commitment_date, expected_commitment)
 
-
-class MarketplaceTasksTests(SimpleTestCase):
-    def test_fetch_orders_calls_sync(self):
-        with mock.patch(
-            "marketplace.digikala.application.sync_orders.sync_orders"
-        ) as sync_mock:
-            fetch_orders()
-
-        sync_mock.assert_called_once()

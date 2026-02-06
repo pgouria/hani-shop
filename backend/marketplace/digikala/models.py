@@ -1,6 +1,6 @@
 from django.db import models
 import jdatetime
-from shop.models import Product as ProductModel
+from shop.models import Variant as VariantModel
 class Product(models.Model):
     external_product_id = models.IntegerField(unique=True)
     category_id = models.IntegerField()
@@ -9,7 +9,7 @@ class Product(models.Model):
 
  
 class Variant(models.Model):
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    linked_variant = models.ForeignKey(VariantModel, on_delete=models.CASCADE)
     external_variant_id = models.IntegerField()
     seller_id = models.IntegerField()
     site = models.CharField(max_length=50)

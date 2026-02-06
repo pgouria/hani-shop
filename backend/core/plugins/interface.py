@@ -1,21 +1,28 @@
 
-
-class PricingInterface:
-    plugin_name = "base"
-    priority = 100
-    def get_price(self,*, product, channel ,**kwargs):
-        """
-        Return Decimal or None
-        None = I don't handle this case
-        """
-        raise NotImplementedError
-
 class InventoryInterface:
     plugin_name = "base"
     priority = 100
-    def reserve(self,*, product, quantity , channel=None):
+    def reserve(self,*, variant, quantity , channel=None):
         raise NotImplementedError
-    def release(self,*, product, quantity ):
+    def release(self,*, variant, quantity ):
         raise NotImplementedError
-    def commit(self,*, product, quantity):
+    def commit(self,*, variant, quantity):
         raise NotImplementedError
+
+
+class ChannelInterface:
+    plugin_name = "base"
+    code = "base"
+    def __init__(self, plugin_name, code):
+        self.plugin_name = plugin_name
+        self.code = code
+        if not (self.plugin_name  and self.code):
+            raise ValueError("plugin_name, priority and code are required")
+    def get_price(self,*, variant, channel ,**kwargs):
+        """
+        Return Decimal
+        """
+        raise NotImplementedError
+    
+    
+ 
