@@ -56,7 +56,7 @@ class Variant(models.Model):
     attributes = models.JSONField(default=dict)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(max_digits=10, decimal_places=0)
 
 
     class Meta:

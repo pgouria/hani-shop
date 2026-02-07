@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load humanize %} {% block content %}
 
 <div class="row mb-3 mt-4">
   <div class="col-md-1"></div>
@@ -16,24 +16,44 @@
     </div>
     <!-- title -->
     <h2>{{ product.title }}</h2>
-    <!-- variants -->
-    {% for variant in variants %}
 
-    <div class="mt-4 pe-3 mb-5">
-      <h3>{{ variant.attributes }}</h3>
-      <!-- price -->
-      <h4 class="mt-4 text-dark">قیمت: ${{ variant.price }}</h4>
-    </div>
-
-    {% endfor %}
+    <!-- PRICE DISPLAY -->
+    <h4 class="mb-4">
+      قیمت:
+      <span id="price" class="fw-bold text-success">—</span>
+      تومان
+    </h4>
 
     <!-- description -->
     <div class="mt-4 pe-3 mb-5">{{ product.description }}</div>
     <!-- cart btn -->
-    <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
-      {% csrf_token %} {{ form }}
-      <input type="submit" class="btn btn-primary mt-4" value="Add to cart" />
+    <form method="post" action="{% url 'cart:add_to_cart' %}">
+      {% csrf_token %}
+
+      <h5 class="mb-3">انتخاب مدل:</h5>
+
+      {% for variant in variants %}
+      <div class="form-check mb-2">
+        <input
+          type="radio"
+          name="variant"
+          value="{{ variant.id }}"
+          class="form-check-input variant-radio"
+          data-price="{{ variant.price }}"
+          id="variant{{ variant.id }}"
+          required
+        />
+        <label class="form-check-label" for="variant{{ variant.id }}">
+          {{ variant.attributes }} — {{ variant.price|intcomma }} تومان
+        </label>
+      </div>
+      {% endfor %} {{ form }}
+
+      <button type="submit" class="btn btn-primary w-100 mt-4">
+        افزودن به سبد خرید
+      </button>
     </form>
+
     <br />
     {% if favorites == 'remove' %}
     <a
@@ -87,4 +107,26 @@
   </div>
   {% endif %} {% endfor %}
 </div>
+
+<script>
+  const priceEl = document.getElementById("price");
+  const radios = document.querySelectorAll(".variant-radio");
+
+  function format(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  radios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      priceEl.textContent = format(radio.dataset.price);
+    });
+  });
+
+  // auto select first variant
+  if (radios.length) {
+    radios[0].checked = true;
+    priceEl.textContent = format(radios[0].dataset.price);
+  }
+</script>
+
 {% endblock %}

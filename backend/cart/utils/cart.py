@@ -1,4 +1,4 @@
-from shop.models import Product
+from shop.models import Variant
 
 CART_SESSION_ID = 'cart'
 
@@ -9,11 +9,11 @@ class Cart:
         self.cart = self.add_cart_session()
 
     def __iter__(self):
-        product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
+        variant_ids = self.cart.keys()
+        variants = Variant.objects.filter(id__in=variant_ids)
         cart = self.cart.copy()
-        for product in products:
-            cart[str(product.id)]['product'] = product
+        for variant in variants:
+            cart[str(variant.id)]['variant'] = variant
         for item in cart.values():
             item['total_price'] = int(item['price']) * int(item['quantity'])
             yield item
@@ -24,19 +24,19 @@ class Cart:
             cart = self.session[CART_SESSION_ID] = {}
         return cart
 
-    def add(self, product, quantity):
-        product_id = str(product.id)
+    def add(self, variant, quantity , * , price):
+        variant_id = str(variant.id)
 
-        if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
+        if variant_id not in self.cart:
+            self.cart[variant_id] = {'quantity': 0, 'price': str(price)}
 
-        self.cart.get(product_id)['quantity'] += quantity
+        self.cart.get(variant_id)['quantity'] += quantity
         self.save()
 
-    def remove(self, product):
-        product_id = str(product.id)
-        if product_id in self.cart:
-            del self.cart[product_id]
+    def remove(self, variant):
+        variant_id = str(variant.id)
+        if variant_id in self.cart:
+            del self.cart[variant_id]
             self.save()
 
     def save(self):

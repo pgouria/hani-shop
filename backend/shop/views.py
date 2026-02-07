@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from shop.models import Product, Category
-from cart.forms import QuantityForm
+from cart.forms import   QuantityForm
 import logging 
 
 logger = logging.getLogger(__name__)
@@ -21,10 +21,17 @@ def paginat(request, list_objects):
     return page_obj
 
 
-class ProductCard:
-        def __init__(self, product, price):
-                self.product = product
-                self.price = price
+class Card:
+        def __init__(self, **kwargs):
+                for key, value in kwargs.items():
+                    setattr(self, key, value)
+
+
+def model_fields_to_dict(obj):
+    data = {}
+    for field in obj._meta.fields:
+        data[field.name] = getattr(obj, field.name)
+    return data
 
 def home_page(request):
     channel = request.channel
@@ -38,11 +45,10 @@ def home_page(request):
 
     for product in products:
         for variant in product.variants.all():
-            logger.info('checking variant availability')
-            logger.info(channel.is_available(variant=variant))
             if channel.is_available(variant=variant):
                 item.append({
                     "product": product,
+            
                     "price": channel.get_price(variant=variant, channel=channel)
                 })
                 break  # one variant per product for homepage
@@ -50,28 +56,37 @@ def home_page(request):
     product_cards = []
     if item:
      for item in item:
-      product_cards.append(ProductCard(item["product"], item["price"]))
+      price = item['price']
+      product_obj = item['product']
+
+      product_data = model_fields_to_dict(product_obj)
+
+      product_cards.append(
+          Card(
+              **product_data,
+             
+              price=price,
+              get_absolute_url=product_obj.get_absolute_url,
+          )
+      )
    
     
 
     context = {"products": paginat(request, product_cards)}
     return render(request, "home_page.html", context)
 
-class VariantCard:
-    def __init__(self, variant, price):
-        self.variant = variant
-        self.price = price
 
 def product_detail(request, slug):
     channel = request.channel
     form = QuantityForm()
-    product = Product.objects.get(slug=slug).prefetch_related("variants")
+    product = Product.objects.get(slug=slug)
     variants = product.variants.all()
     to_show_variants = []
     for variant in variants:
         if channel.is_available(variant=variant, channel=request.channel):
             price = channel.get_price(variant=variant, channel=request.channel)
-            to_show_variants.append(VariantCard(variant, price))
+            variant_data = model_fields_to_dict(variant)
+            to_show_variants.append(Card(**variant_data, price=price))
     related_products = Product.objects.filter(category=product.category).all()[:5]
     context = {
         'title':product.title,

@@ -12,7 +12,7 @@ class VariantChannel(models.Model):
     variant = models.ForeignKey(Variant, on_delete=models.CASCADE,related_name='channels')
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE,related_name='variants')
 
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=0)
     stock = models.IntegerField(default=0)
     is_published = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
