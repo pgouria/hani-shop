@@ -1,6 +1,7 @@
 from django.db import models
 import jdatetime
 from shop.models import Variant as VariantModel
+
 class Product(models.Model):
     external_product_id = models.IntegerField(unique=True)
     category_id = models.IntegerField()

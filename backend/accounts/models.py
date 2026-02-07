@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
 from .managers import UserManager
-from shop.models import Variant
+from shop.models import Product
 
 
 class User(AbstractBaseUser):
@@ -10,7 +10,7 @@ class User(AbstractBaseUser):
     full_name = models.CharField(max_length=100)    
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    likes = models.ManyToManyField(Variant, blank=True, related_name='likes')
+    likes = models.ManyToManyField(Product, blank=True, related_name='likes')
     address = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=200, null=True, blank=True)
     

@@ -1,13 +1,12 @@
 {% extends "base.html" %} {% load static humanize %} {% block content %}
 
 <div class="container mt-4" dir="rtl">
-  {# ===== بررسی وجود محصول ===== #} {% if products.object_list %} {# ===== لیست
-  محصولات ===== #}
+  {% if products.object_list %}
   <div class="row">
     {% for product in products.object_list %}
     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
       <div class="card h-100 shadow-sm">
-        {# --- تصویر محصول (ایمن) --- #} {% if product.image %}
+        {% if product.image %}
         <img
           src="{{ product.image.url }}"
           class="card-img-top"

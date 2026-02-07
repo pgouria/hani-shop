@@ -15,13 +15,13 @@ def create_order(request):
         messages.error(request, 'لطفا آدرس خود را وارد کنید', 'danger')
         return redirect('accounts:edit_profile')
     cart = Cart(request)
-    order = Order.objects.create(user=request.user)
-    for item in cart:
-        OrderItem.objects.create(
-            order=order, product=item['product'],
-            price=item['price'], quantity=item['quantity']
-    )
-    return redirect('orders:pay_order', order_id=order.id)
+    items = [item for item in cart]
+    result = request.channel.place_order(items=items , user=request.user)
+    if result.success:
+        return redirect('orders:pay_order', order_id=result.order.id)
+    else:
+        messages.error(request, result.error, 'danger')
+        return redirect('orders:user_orders')
 
 
 @login_required

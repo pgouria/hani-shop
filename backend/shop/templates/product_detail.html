@@ -16,8 +16,17 @@
     </div>
     <!-- title -->
     <h2>{{ product.title }}</h2>
-    <!-- price -->
-    <h4 class="mt-4 text-dark">قیمت: ${{ product.price }}</h4>
+    <!-- variants -->
+    {% for variant in variants %}
+
+    <div class="mt-4 pe-3 mb-5">
+      <h3>{{ variant.attributes }}</h3>
+      <!-- price -->
+      <h4 class="mt-4 text-dark">قیمت: ${{ variant.price }}</h4>
+    </div>
+
+    {% endfor %}
+
     <!-- description -->
     <div class="mt-4 pe-3 mb-5">{{ product.description }}</div>
     <!-- cart btn -->

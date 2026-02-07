@@ -1,7 +1,7 @@
 
 from django.db import models
 from django.urls import reverse
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 
 
 class Category(models.Model):
