@@ -1,12 +1,11 @@
 
 from typing import List
 # item class
-class Item:
+class OrderItemObject:
     def __init__(self, *, variant, quantity):
-        self.item = {
-            "variant": variant,
-            "quantity": quantity,
-        }
+       
+        self.variant = variant
+        self.quantity = quantity
     
  
 
@@ -47,7 +46,7 @@ class ChannelInterface:
         Return Boolean
         """ 
         raise NotImplementedError
-    def place_order(self,*, items : List[Item], user):
+    def place_order(self,*, items : List[OrderItemObject], user):
         raise NotImplementedError
 
     

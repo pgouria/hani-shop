@@ -69,15 +69,6 @@ class PluginRegistry:
         self.channel = get_channel_plugin()
         self.inventory = get_inventory_plugin()
         self.inventory.sort(key=lambda x: x.priority)
-# NOT IMPLEMENTED YET
-    def sync_channels_to_db(self):
-        from channels.models import Channel
-
-        for channel in self.channel:
-            Channel.objects.get_or_create(
-                name=channel.plugin_name,
-                code=channel.code,
-            )
 
 
     def register(self, plugin):

@@ -28,7 +28,7 @@
         <!-- Menu -->
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="{% url 'shop:home_page' %}" class="nav-link px-2 text-dark">خانه</a></li>
-          <li><a href="#" class="nav-link px-2 text-dark">فروشگاه</a></li>
+        
           <!-- categories dropdown -->
           <div class="dropdown text-end">
             <a href="#" class=" mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">دسته بندی</a>
@@ -46,8 +46,9 @@
               {% endfor %}
             </ul>
           </div>
-          <li><a href="#" class="nav-link px-2 text-dark">سوالات متداول</a></li>
-          <li><a href="#" class="nav-link px-2 text-dark">درباره</a></li>
+          <li><a href="{% url 'shop:faq' %}" class="nav-link px-2 text-dark">سوالات متداول</a></li>
+          <li><a href="{% url 'shop:about' %}" class="nav-link px-2 text-dark">درباره</a></li>
+          <li><a href="{% url 'shop:contact' %}" class="nav-link px-2 text-dark">تماس با ما</a></li>
         </ul>
         <!-- search form -->
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="{% url 'shop:search' %}">

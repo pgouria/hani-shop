@@ -54,7 +54,7 @@
         </span>
       </li>
 
-      {# --- صفحه بعد و آخر --- #} {% if products.has_next %}
+      {% if products.has_next %}
       <li class="page-item">
         <a class="page-link" href="?page={{ products.next_page_number }}">
           بعدی
@@ -69,7 +69,7 @@
     </ul>
   </nav>
 
-  {% else %} {# ===== حالت بدون محصول ===== #}
+  {% else %}
   <div class="row">
     <div class="col-12 text-center py-5">
       <h4 class="text-muted">محصولی برای نمایش وجود ندارد</h4>

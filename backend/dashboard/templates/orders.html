@@ -19,9 +19,7 @@
       <td>{{ order.id }}</td>
       <td>${{ order.get_total_price }}</td>
       {% if order.status %}
-      <td class="text-success">Successful</td>
-      {% else %}
-      <td class="text-danger">Canceled</td>
+      <td class="text-success">{{order.status}}</td>
       {% endif %}
       <td>{{order.channel.name}}</td>
       <td>

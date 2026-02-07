@@ -1,7 +1,6 @@
 
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -11,7 +10,7 @@ class Category(models.Model):
         related_name='sub_categories', null=True, blank=True
     )
     is_sub = models.BooleanField(default=False)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True )
 
     def __str__(self):
         return self.title
@@ -19,10 +18,7 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', kwargs={'slug':self.slug})
 
-    def save(self, *args, **kwargs): # new
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
-        
+
 
 
 
@@ -32,7 +28,7 @@ class Product(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True )
 
 
     class Meta:
@@ -44,13 +40,11 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', kwargs={'slug':self.slug})
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
-    
+   
 
 
 class Variant(models.Model):
+    title = models.CharField(max_length=250)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
     sku = models.CharField(max_length=64, unique=True, null=True, blank=True)
     attributes = models.JSONField(default=dict)

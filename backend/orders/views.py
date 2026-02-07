@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.contrib import messages
-
+from core.plugins.interface import OrderItemObject
 from orders.models import Order, OrderItem
 from cart.utils.cart import Cart
 
@@ -16,6 +16,7 @@ def create_order(request):
         return redirect('accounts:edit_profile')
     cart = Cart(request)
     items = [item for item in cart]
+    items = [OrderItemObject(variant=item['variant'], quantity=item['quantity']) for item in items]
     result = request.channel.place_order(items=items , user=request.user)
     if result.success:
         return redirect('orders:pay_order', order_id=result.order.id)

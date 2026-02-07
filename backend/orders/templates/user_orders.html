@@ -4,9 +4,7 @@
   <b style="float: right">کد سفارش: {{ order.id }}</b>
   <!-- order payment status -->
   {% if order.status %}
-  <h4><b class="text-success">موفق</b></h4>
-  {% else %}
-  <h3><b class="text-danger">کنسل شده</b></h3>
+  <h4><b class="text-success">{{order.status}}</b></h4>
   {% endif %}
   <div class="text-muted border-top pt-2"></div>
   {% for item in order.items.all %}
@@ -14,17 +12,16 @@
     <p>
       محصول:
       <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}"
-        >{{item.product.title}}</a
+        >{{item.variant.product.title}}</a
       >
     </p>
-    <p>قیمت: ${{item.price}}</p>
+    <p>قیمت: {{item.price}} تومان</p>
     <p>تعداد: {{item.quantity}}</p>
   </div>
   {% endfor %}
-  <b>جمع کل: ${{ order.get_total_price }}</b>
+  <b>جمع کل: {{ order.get_total_price }} تومان</b>
 </div>
-{% endfor %} 
-{% else %}
+{% endfor %} {% else %}
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8 mt-5 pt-5 text-center">

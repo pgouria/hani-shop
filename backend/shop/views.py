@@ -146,3 +146,18 @@ def filter_by_category(request, slug):
                 for product in Product.objects.filter(category=category).all()]
     context = {'products': paginat(request ,result)}
     return render(request, 'home_page.html', context)
+
+
+def about(request):
+    context = {'title': 'درباره ما'}
+    return render(request, 'about.html', context)
+
+
+def faq(request):
+    context = {'title': 'سوالات متداول'}
+    return render(request, 'faq.html', context)
+
+
+def contact(request):
+    context = {'title': 'تماس با ما'}
+    return render(request, 'contact.html', context)

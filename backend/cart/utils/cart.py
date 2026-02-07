@@ -1,5 +1,6 @@
 from shop.models import Variant
 
+
 CART_SESSION_ID = 'cart'
 
 

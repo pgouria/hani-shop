@@ -23,14 +23,14 @@ def is_manager(user):
 @login_required
 def products(request):
     products = Product.objects.all()
-    context = {'title':'Products' ,'products':products}
+    context = {'title':'محصولات' ,'products':products}
     return render(request, 'products.html', context)
 
 @user_passes_test(is_manager)
 @login_required
 def variants(request):
     variants = Variant.objects.all()
-    context = {'title':'Variants' ,'variants':variants}
+    context = {'title':'تنوع ها' ,'variants':variants}
     return render(request, 'variants.html', context)
 
 
@@ -41,11 +41,11 @@ def add_product(request):
         form = AddProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Product added Successfuly!')
+            messages.success(request, 'محصول اضافه شد!')
             return redirect('dashboard:add_product')
     else:
         form = AddProductForm()
-    context = {'title':'Add Product', 'form':form}
+    context = {'title':'اضافه کردن محصول', 'form':form}
     return render(request, 'add_product.html', context)
 
 @user_passes_test(is_manager)
@@ -55,19 +55,19 @@ def add_variant(request):
         form = AddVariantForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Variant added Successfuly!')
+            messages.success(request, 'تنوع اضافه شد!')
             return redirect('dashboard:add_variant')
     else:
         form = AddVariantForm()
-    context = {'title':'Add Variant', 'form':form}
-    return render(request, 'add_variants.html', context)
+    context = {'title':'اضافه کردن تنوع', 'form':form}
+    return render(request, 'add_variant.html', context)
 
 
 @user_passes_test(is_manager)
 @login_required
 def delete_product(request, id):
     product = Product.objects.filter(id=id).delete()
-    messages.success(request, 'product has been deleted!', 'success')
+    messages.success(request, 'محصول حذف شد!', 'success')
     return redirect('dashboard:products')
 
 
@@ -81,11 +81,11 @@ def edit_product(request, id):
         form = EditProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Product has been updated', 'success')
+            messages.success(request, 'محصول به روز شد!', 'success')
             return redirect('dashboard:products')
     else:
         form = EditProductForm(instance=product)
-    context = {'title': 'Edit Product', 'form':form}
+    context = {'title': 'ویرایش محصول', 'form':form}
     return render(request, 'edit_product.html', context)
 
 
@@ -97,11 +97,11 @@ def edit_variant(request, id):
         form = EditVariantForm(request.POST, request.FILES, instance=variant)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Variant has been updated', 'success')
+            messages.success(request, 'تنوع به روز شد!', 'success')
             return redirect('dashboard:variants')
     else:
         form = EditVariantForm(instance=variant)
-    context = {'title': 'Edit Variant', 'form':form}
+    context = {'title': 'ویرایش تنوع', 'form':form}
     return render(request, 'edit_variant.html', context)
 
 @user_passes_test(is_manager)
@@ -109,7 +109,7 @@ def edit_variant(request, id):
 def delete_variant(request, id):
     variant = get_object_or_404(Variant, id=id)
     variant.delete()
-    messages.success(request, 'variant has been deleted!', 'success')
+    messages.success(request, 'تنوع حذف شد!', 'success')
     return redirect('dashboard:variants')
 
 
@@ -120,11 +120,11 @@ def add_category(request):
         form = AddCategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Category added Successfuly!')
+            messages.success(request, 'دسته بندی اضافه شد!')
             return redirect('dashboard:add_category')
     else:
         form = AddCategoryForm()
-    context = {'title':'Add Category', 'form':form}
+    context = {'title':'افزودن دسته بندی', 'form':form}
     return render(request, 'add_category.html', context)
 
 @user_passes_test(is_manager)
@@ -135,11 +135,11 @@ def edit_category(request, id):
         form = EditCategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Category has been updated', 'success')
+            messages.success(request, 'دسته بندی به روز شد!', 'success')
             return redirect('dashboard:categories')
     else:
         form = EditCategoryForm(instance=category)
-    context = {'title': 'Edit Category', 'form':form}
+    context = {'title': 'ویرایش دسته بندی', 'form':form}
     return render(request, 'edit_category.html', context)
 
 
@@ -147,7 +147,7 @@ def edit_category(request, id):
 @login_required
 def orders(request):
     orders = Order.objects.all()
-    context = {'title':'Orders', 'orders':orders}
+    context = {'title':'سفارشات', 'orders':orders}
     return render(request, 'orders.html', context)
 
 
@@ -156,5 +156,5 @@ def orders(request):
 def order_detail(request, id):
     order = Order.objects.filter(id=id).first()
     items = OrderItem.objects.filter(order=order).all()
-    context = {'title':'order detail', 'items':items, 'order':order}
+    context = {'title':'جزئیات سفارش', 'items':items, 'order':order}
     return render(request, 'order_detail.html', context)
