@@ -8,6 +8,6 @@ class CoreConfig(AppConfig):
         from core.domain import events
 
         registry.load_plugins()
-        registry.sync_channels_to_db()
+       
 
     

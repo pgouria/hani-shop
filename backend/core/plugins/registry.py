@@ -69,7 +69,7 @@ class PluginRegistry:
         self.channel = get_channel_plugin()
         self.inventory = get_inventory_plugin()
         self.inventory.sort(key=lambda x: x.priority)
-
+# NOT IMPLEMENTED YET
     def sync_channels_to_db(self):
         from channels.models import Channel
 
@@ -87,6 +87,7 @@ class PluginRegistry:
             self.inventory.sort(key=lambda x: x.priority)
         elif issubclass(plugin, ChannelInterface):
             self.channel.append(plugin)
+            
         else:
             raise ImproperlyConfigured(_(
                 "Plugin %s is not of known types." % plugin
