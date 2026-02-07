@@ -51,7 +51,7 @@ class WarehousePlugin(InventoryInterface):
         if quantity != 0:
             raise Exception("Not enough allocated stocks")
         
-    def get_stock(self, *, variant, **kwargs):
+    def get_stock(self, *, variant, **kwargs) -> int:
         stocks = Stock.objects.filter(variant=variant)
         count = 0
         if stocks:

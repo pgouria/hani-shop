@@ -183,10 +183,44 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,  # Directs logs to the console
         },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/app.log"),
+            "maxBytes": 1024 * 1024 * 10,  # 10 MB
+            "backupCount": 5,
+        },
+
+        "errors": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/errors.log"),
+            "maxBytes": 1024 * 1024 * 10,
+            "backupCount": 5,
+            "level": "ERROR",
+        },
     },
     'root': {
         'handlers': ['console'],
         'level': 'INFO',  # Change to 'DEBUG' for more verbosity
+    },
+
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+
+        "django.request": {
+            "handlers": ["errors"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+
+        "app": {  # YOUR app logger
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
 # End of logging

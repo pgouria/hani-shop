@@ -11,11 +11,13 @@ class InventoryService:
 
     @staticmethod
     def reserve(variant, quantity):
-        logger.info(f'plugins  : {registry.inventory}')
+      
         for plugin in registry.inventory:
-            handled = plugin.reserve(variant=variant, quantity=quantity)
-            if handled:
+            try :
+                plugin.reserve(variant=variant, quantity=quantity)
                 return
+            except Exception as e:
+                continue
         raise Exception("No inventory plugin handled reservation")
     @staticmethod
     def get_stock(variant):

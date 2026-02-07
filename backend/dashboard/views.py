@@ -60,7 +60,7 @@ def add_variant(request):
     else:
         form = AddVariantForm()
     context = {'title':'Add Variant', 'form':form}
-    return render(request, 'add_variant.html', context)
+    return render(request, 'add_variants.html', context)
 
 
 @user_passes_test(is_manager)
