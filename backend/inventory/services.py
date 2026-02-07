@@ -11,7 +11,7 @@ class InventoryService:
 
     @staticmethod
     def reserve(variant, quantity):
-       
+        logger.info(f'plugins  : {registry.inventory}')
         for plugin in registry.inventory:
             handled = plugin.reserve(variant=variant, quantity=quantity)
             if handled:

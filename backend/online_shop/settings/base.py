@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'marketplace',
     'marketplace.digikala',
     'notification',
-    'plugins',
     'inventory',
 ]
 
