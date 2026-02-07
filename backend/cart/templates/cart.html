@@ -24,9 +24,9 @@
             >{{ item.variant.product.title }}</a
           >
         </td>
-        <td>${{ item.price }}</td>
+        <td>{{ item.price }}</td>
         <td>{{ item.quantity }}</td>
-        <td>${{ item.total_price }}</td>
+        <td>{{ item.total_price }}</td>
         <td>
           <a
             class="text-danger text-decoration-none"
@@ -46,7 +46,7 @@
     >پرداخت</a
   >
   <h4 class="mt-4">
-    <span class="text-muted">Total:</span> ${{ cart.get_total_price }}
+    <span class="text-muted">Total:</span> {{ cart.get_total_price }}
   </h4>
 </div>
 {% else %}

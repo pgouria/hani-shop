@@ -25,8 +25,8 @@ def place_order(*, channel : ChannelInterface, user, items : List[Item]) -> Orde
             variant = item["variant"]
             qty = item["quantity"]
 
-            price = channel.get_price(variant=variant, channel=channel)
-            InventoryService.reserve(variant=variant, quantity=qty, channel=channel)
+            price = channel.get_price(variant=variant)
+            InventoryService.reserve(variant=variant, quantity=qty)
 
             resolved_items.append((variant, qty, price))
             total += price * qty
