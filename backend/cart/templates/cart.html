@@ -20,8 +20,8 @@
         <td>
           <a
             class="text-decoration-none"
-            href="{{ item.product.get_absolute_url }}"
-            >{{ item.product.title }}</a
+            href="{{ item.variant.get_absolute_url }}"
+            >{{ item.variant.product.title }}</a
           >
         </td>
         <td>${{ item.price }}</td>
@@ -30,7 +30,7 @@
         <td>
           <a
             class="text-danger text-decoration-none"
-            href="{% url 'cart:remove_from_cart' item.product.id %}"
+            href="{% url 'cart:remove_from_cart' item.variant.id %}"
             >حذف</a
           >
         </td>
