@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from typing import TYPE_CHECKING
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -8,6 +9,13 @@ from cart.forms import   QuantityForm
 import logging 
 
 logger = logging.getLogger(__name__)
+
+if TYPE_CHECKING:
+    from core.plugins.interface import ChannelInterface
+
+
+class ChannelRequest(HttpRequest):
+    channel: "ChannelInterface"
 
 
 
@@ -33,7 +41,7 @@ def model_fields_to_dict(obj):
         data[field.name] = getattr(obj, field.name)
     return data
 
-def home_page(request):
+def home_page(request: ChannelRequest):
     channel = request.channel
     item = []
 
@@ -49,7 +57,7 @@ def home_page(request):
                 item.append({
                     "product": product,
             
-                    "price": channel.get_price(variant=variant, channel=channel)
+                    "price": channel.get_price(variant=variant)
                 })
                 break  # one variant per product for homepage
         
@@ -76,7 +84,7 @@ def home_page(request):
     return render(request, "home_page.html", context)
 
 
-def product_detail(request, slug):
+def product_detail(request: ChannelRequest, slug):
     channel = request.channel
     form = QuantityForm()
     product = Product.objects.get(slug=slug)
@@ -93,43 +101,43 @@ def product_detail(request, slug):
         'product':product,
         'variants':to_show_variants,
         'form':form,
-        'favorites':'favorites',
+        'favorites':'علاقه مندی',
         'related_products':related_products
     }
     if request.user.likes.filter(id=product.id).first():
-        context['favorites'] = 'remove'
+        context['favorites'] = 'حذف از علاقه مندی'
     return render(request, 'product_detail.html', context)
 
 
 @login_required
-def add_to_favorites(request, product_id):
+def add_to_favorites(request: ChannelRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
     request.user.likes.add(product)
     return redirect('shop:product_detail', slug=product.slug)
 
 
 @login_required
-def remove_from_favorites(request, product_id):
+def remove_from_favorites(request: ChannelRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
     request.user.likes.remove(product)
     return redirect('shop:favorites')
 
 
 @login_required
-def favorites(request):
+def favorites(request: ChannelRequest):
     products = request.user.likes.all()
     context = {'title':'Favorites', 'products':products}
     return render(request, 'favorites.html', context)
 
 
-def search(request):
+def search(request: ChannelRequest):
     query = request.GET.get('q')
     products = Product.objects.filter(title__icontains=query).all()
     context = {'products': paginat(request ,products)}
     return render(request, 'home_page.html', context)
 
 
-def filter_by_category(request, slug):
+def filter_by_category(request: ChannelRequest, slug):
     """when user clicks on parent category
     we want to show all products in its sub-categories too
     """
@@ -148,16 +156,16 @@ def filter_by_category(request, slug):
     return render(request, 'home_page.html', context)
 
 
-def about(request):
+def about(request: ChannelRequest):
     context = {'title': 'درباره ما'}
     return render(request, 'about.html', context)
 
 
-def faq(request):
+def faq(request: ChannelRequest):
     context = {'title': 'سوالات متداول'}
     return render(request, 'faq.html', context)
 
 
-def contact(request):
+def contact(request: ChannelRequest):
     context = {'title': 'تماس با ما'}
     return render(request, 'contact.html', context)

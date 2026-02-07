@@ -27,6 +27,7 @@
     <!-- description -->
     <div class="mt-4 pe-3 mb-5">{{ product.description }}</div>
     <!-- cart btn -->
+    {% if variants %}
     <form method="post" action="{% url 'cart:add_to_cart' %}">
       {% csrf_token %}
 
@@ -53,6 +54,9 @@
         افزودن به سبد خرید
       </button>
     </form>
+    {% else %}
+    <div class="alert alert-danger" role="alert">محصول موجود نیست</div>
+    {% endif %}
 
     <br />
     {% if favorites == 'remove' %}

@@ -1,11 +1,19 @@
 
-from typing import List
-# item class
+from dataclasses import dataclass
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from shop.models import Variant
+
+
+@dataclass(frozen=True, slots=True)
 class OrderItemObject:
-    def __init__(self, *, variant, quantity):
-       
-        self.variant = variant
-        self.quantity = quantity
+    variant: "Variant"
+    quantity: int
+
+    def __post_init__(self):
+        if self.quantity <= 0:
+            raise ValueError("quantity must be a positive integer")
     
  
 

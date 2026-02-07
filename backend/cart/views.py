@@ -41,7 +41,7 @@ def add_to_cart(request):
 @login_required
 def show_cart(request):
     cart = Cart(request)
-    context = {'title': 'Cart', 'cart': cart}
+    context = {'title': 'سبد خرید', 'cart': cart}
     return render(request, 'cart.html', context)
 
 

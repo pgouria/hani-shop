@@ -5,11 +5,11 @@ from shop.models import   Variant
 from channels.models import Channel
 
 class OrderStatus(models.TextChoices):
-    PENDING = 'PENDING'
-    PAID = 'PAID'
-    SHIPPED = 'SHIPPED'
-    DELIVERED = 'DELIVERED'
-    CANCELLED = 'CANCELLED'
+    PENDING = ('PENDING', 'در انتظار پرداخت')
+    PAID = ('PAID', 'پرداخت شد')
+    SHIPPED = ('SHIPPED', 'ارسال شد')
+    DELIVERED = ('DELIVERED', 'تحویل شد')
+    CANCELLED = ('CANCELLED', 'لغو شد')
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')

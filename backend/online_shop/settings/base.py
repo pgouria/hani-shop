@@ -175,6 +175,10 @@ CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 min max per task
 # logging
 import sys
 
+LOG_LEVEL = "DEBUG" if DEBUG else "INFO"
+ROOT_HANDLERS = ["console"] if DEBUG else ["console", "file"]
+APP_HANDLERS = ["console", "file"] if DEBUG else ["file"]
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -188,6 +192,7 @@ LOGGING = {
             "filename": os.path.join(BASE_DIR, "logs/app.log"),
             "maxBytes": 1024 * 1024 * 10,  # 10 MB
             "backupCount": 5,
+            "level": LOG_LEVEL,
         },
 
         "errors": {
@@ -199,14 +204,14 @@ LOGGING = {
         },
     },
     'root': {
-        'handlers': ['console'],
-        'level': 'INFO',  # Change to 'DEBUG' for more verbosity
+        'handlers': ROOT_HANDLERS,
+        'level': LOG_LEVEL,
     },
 
     "loggers": {
         "django": {
             "handlers": ["console", "file"],
-            "level": "INFO",
+            "level": LOG_LEVEL,
             "propagate": True,
         },
 
@@ -217,8 +222,8 @@ LOGGING = {
         },
 
         "app": {  # YOUR app logger
-            "handlers": ["file"],
-            "level": "INFO",
+            "handlers": APP_HANDLERS,
+            "level": LOG_LEVEL,
             "propagate": False,
         },
     },

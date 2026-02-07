@@ -1,5 +1,5 @@
 {% extends "dashboard.html" %} {% block content %} {% if order.status %}
-<h4><b class="text-success">{{order.status}}</b></h4>
+<h4><b class="text-success">{{order.get_status_display}}</b></h4>
 {% endif %} {% for item in items %}
 <div class="bg-light rounded border-bottom p-3">
   <p>
@@ -10,6 +10,12 @@
       {{item.variant.product.title}}</a
     >
   </p>
+  <p>
+    تنوع : {{item.variant.title}}
+    <br />
+    {{item.variant.attributes}}
+  </p>
+
   <p>قیمت: {{item.price}} تومان</p>
   <p>تعداد: {{item.quantity}}</p>
 </div>
