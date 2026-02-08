@@ -13,6 +13,8 @@ This project is a online shop written with Django. The app provides a custom das
 - **PLUGINS**: The app is built using plugins, allowing for easy integration with third-party services.
 - **CUSTOM DASHBOARD**: The app provides a custom dashboard for managing products and orders.
 - **EVENTS**: The app emit events for various actions, allowing for easy integration with other systems.
+- **NOTIFICATIONS**: The app provides option to send telegram notifications using bot.
+- **Variants**: The app supports variants, allowing for customization and product variations.
 
 There are two types of users in this app: regular users and managers.
 
