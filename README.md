@@ -7,7 +7,7 @@ This project is a online shop written with Django. The app provides a custom das
 ## Features
 
 - **COMPOSABLE**: The app is built using the principles of composition, making it easy to customize and extend.
-- **MICROSERVICES**: The app is built using microservices architecture, allowing for scalability and flexibility.
+- **MICRO SERVICES**: The app is built using microservices architecture, allowing for scalability and flexibility.
 - **MULTI-CHANNEL**: The app supports multiple selling channels, including a fake payment system for testing purposes.
 - **MARKETPLACES**: The app has neccessary features to sell in marketplaces such as digikala or snapp.
 - **PLUGINS**: The app is built using plugins, allowing for easy integration with third-party services.
