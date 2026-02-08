@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.contrib import messages
+from backend.inventory.services import InventoryService
 from core.plugins.interface import OrderItemObject
 from orders.models import OrderStatus
 from orders.models import Order, OrderItem
@@ -40,6 +41,8 @@ def fake_payment(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order.status = OrderStatus.PAID
     order.save()
+    for item in order.items.all():
+        InventoryService.commit(variant=item.variant, quantity=item.quantity)
     return redirect('orders:user_orders')
 
 

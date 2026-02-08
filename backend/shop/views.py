@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, Page
 from shop.models import Product, Category
 from cart.forms import   QuantityForm
 import logging 
@@ -19,14 +19,10 @@ class ChannelRequest(HttpRequest):
 
 
 
-def paginat(request, list_objects):
-    p = Paginator(list_objects, 20)
+def paginat(request, list_objects, *, per_page: int = 20) -> Page:
+    paginator = Paginator(list_objects, per_page)
     page_number = request.GET.get('page')
-    try:
-        page_obj = p.get_page(page_number)
-    except Exception as e:
-        raise e
-    return page_obj
+    return paginator.get_page(page_number)
 
 
 class Card:
@@ -126,7 +122,7 @@ def remove_from_favorites(request: ChannelRequest, product_id):
 @login_required
 def favorites(request: ChannelRequest):
     products = request.user.likes.all()
-    context = {'title':'Favorites', 'products':products}
+    context = {'title':'Favorites', 'products':paginat(request, products)}
     return render(request, 'favorites.html', context)
 
 

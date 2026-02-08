@@ -19,6 +19,22 @@ class InventoryService:
             except Exception as e:
                 continue
         raise Exception("No inventory plugin handled reservation")
+    def release(variant, quantity):
+        for plugin in registry.inventory:
+            try :
+                plugin.release(variant=variant, quantity=quantity)
+                return
+            except Exception as e:
+                continue
+        raise Exception("No inventory plugin handled reservation")
+    def commit(variant, quantity):
+        for plugin in registry.inventory:
+            try :
+                plugin.commit(variant=variant, quantity=quantity)
+                return
+            except Exception as e:
+                continue
+        raise Exception("No inventory plugin handled reservation")
     @staticmethod
     def get_stock(variant):
      
@@ -28,6 +44,8 @@ class InventoryService:
            
             
             return handled
+        
+
     
 
 
