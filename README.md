@@ -1,8 +1,18 @@
-# Simple Persian Online Shop: Manage Products and Orders with Django
+# Advanced Persian Django Online Shop: Manage Products and Orders with Django
 
-This project is a simple but usable online shop written with Django. The app provides a custom dashboard to manage products and orders. Users can like a product, add it to the cart, and proceed to checkout. Order processing is supported, but the payment is handled using a fake pay system.
+This project is a online shop written with Django. The app provides a custom dashboard to manage products and orders. Users can like a product, add it to the cart, and proceed to checkout. Order processing is supported, but the payment is handled using a fake pay system.
+
+## THIS PROJECT IS NOT FINISHED YET AND IT'S NOT READY FOR PRODUCTION, USE IT AS A BASE FOR YOUR PROJECTS
 
 ## Features
+
+- **COMPOSABLE**: The app is built using the principles of composition, making it easy to customize and extend.
+- **MICROSERVICES**: The app is built using microservices architecture, allowing for scalability and flexibility.
+- **MULTI-CHANNEL**: The app supports multiple payment channels, including a fake payment system for testing purposes.
+- **MARKETPLACES**: The app has neccessary features to sell in marketplaces such as digikala or snapp.
+- **PLUGINS**: The app is built using plugins, allowing for easy integration with third-party services.
+- **CUSTOM DASHBOARD**: The app provides a custom dashboard for managing products and orders.
+- **EVENTS**: The app emit events for various actions, allowing for easy integration with other systems.
 
 There are two types of users in this app: regular users and managers.
 
